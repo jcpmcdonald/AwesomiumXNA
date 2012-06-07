@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwesomiumXNA", "AwesomiumXNA\AwesomiumXNA.csproj", "{251BCEDB-CC58-4266-B087-6D404A4A1785}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSample", "TestSample\TestSample\TestSample.csproj", "{D22CD207-C59E-49BE-84C1-16E82ABB9B95}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "TestSampleContent", "TestSample\TestSampleContent\TestSampleContent.contentproj", "{E0213B35-D1FE-49A4-8A68-8A8413BF96FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +17,12 @@ Global
 		{251BCEDB-CC58-4266-B087-6D404A4A1785}.Debug|x86.Build.0 = Debug|x86
 		{251BCEDB-CC58-4266-B087-6D404A4A1785}.Release|x86.ActiveCfg = Release|x86
 		{251BCEDB-CC58-4266-B087-6D404A4A1785}.Release|x86.Build.0 = Release|x86
+		{D22CD207-C59E-49BE-84C1-16E82ABB9B95}.Debug|x86.ActiveCfg = Debug|x86
+		{D22CD207-C59E-49BE-84C1-16E82ABB9B95}.Debug|x86.Build.0 = Debug|x86
+		{D22CD207-C59E-49BE-84C1-16E82ABB9B95}.Release|x86.ActiveCfg = Release|x86
+		{D22CD207-C59E-49BE-84C1-16E82ABB9B95}.Release|x86.Build.0 = Release|x86
+		{E0213B35-D1FE-49A4-8A68-8A8413BF96FF}.Debug|x86.ActiveCfg = Debug|x86
+		{E0213B35-D1FE-49A4-8A68-8A8413BF96FF}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
