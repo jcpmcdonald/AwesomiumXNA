@@ -1,6 +1,4 @@
-using System;
-
-namespace TestSample
+namespace AwesomiumSample
 {
 #if WINDOWS || XBOX
     static class Program

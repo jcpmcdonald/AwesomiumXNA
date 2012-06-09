@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestSample</RootNamespace>
-    <AssemblyName>TestSample</AssemblyName>
+    <RootNamespace>AwesomiumSample</RootNamespace>
+    <AssemblyName>AwesomiumSample</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
@@ -121,9 +121,10 @@
       <Project>{251BCEDB-CC58-4266-B087-6D404A4A1785}</Project>
       <Name>AwesomiumXNA</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestSampleContent\TestSampleContent.contentproj">
-      <Name>TestSampleContent</Name>
+    <ProjectReference Include="..\AwesomiumTestSampleContent\AwesomiumSampleContent.contentproj">
+      <Name>AwesomiumSampleContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{E0213B35-D1FE-49A4-8A68-8A8413BF96FF}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

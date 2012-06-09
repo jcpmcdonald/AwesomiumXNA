@@ -48,3 +48,4 @@ bin/
 *.suo
 _ReSharper.*
 *.resharper.user
+*.vs10x
