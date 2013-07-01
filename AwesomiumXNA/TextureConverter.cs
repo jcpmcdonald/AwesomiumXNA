@@ -197,7 +197,7 @@ namespace AwesomiumXNA
 	public static class TextureFormatConverter
 	{
 		#region XNA To DirectX by Reflection
-		public static unsafe void DirectBlit(RenderBuffer buffer, ref Texture2D texture2d)
+		public static unsafe void DirectBlit(BitmapSurface buffer, ref Texture2D texture2d)
 		{
 			//TODO : Test if d3dt can be cached
 			IDirect3DTexture9 d3dt = GetIUnknownObject<IDirect3DTexture9>(texture2d);
@@ -206,7 +206,7 @@ namespace AwesomiumXNA
 			RECT rect = new RECT();
 			Marshal.ThrowExceptionForHR(d3dt.LockRect(0, out  lockrect, rect, 0));
 
-			buffer.CopyTo((IntPtr)(uint)(lockrect.pBits), lockrect.Pitch, 4, false);
+			buffer.CopyTo((IntPtr)(uint)(lockrect.pBits), lockrect.Pitch, 4, false, false);
 			d3dt.UnlockRect(0);
 
 			//Move onto Dispose() if d3dt will be cached d3dt

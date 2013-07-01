@@ -142,14 +142,21 @@ namespace AwesomiumXNA
 		{
 			this.area = area;
 
-			//WebCoreConfig.Default.ForceSingleProcess = true;
+			WebCore.Initialize(new WebConfig());
 			WebView = WebCore.CreateWebView(area.Width, area.Height);
-			WebView.ResizeComplete += WebView_ResizeComplete;
-			WebView.FlushAlpha = false;
+
+			while(WebView.IsLoading)
+			{
+				WebCore.Update();
+			}
+
+			//BitmapSurface asdf = ((BitmapSurface)WebView.Surface);
+			//asdf.Resized += WebView_ResizeComplete;
+			//WebView.FlushAlpha = false;
 			WebView.IsTransparent = true;
 
 			// WebView doesn't seem to listen when I say this
-			WebView.SelfUpdate = true;
+			//WebView.SelfUpdate = true;
 			// So I have to say this:
 			WebCore.AutoUpdatePeriod = 10000000;   // TEEENN MIILLLIOON
 
@@ -157,6 +164,8 @@ namespace AwesomiumXNA
 
 			// Create the message hook.
 			hookHandle = User32.SetWindowsHookEx(3, processMessages, IntPtr.Zero, Kernel32.GetCurrentThreadId());
+
+			WebView.FocusView();
 		}
 
 
@@ -189,7 +198,7 @@ namespace AwesomiumXNA
 				case WindowsMessage.KeyDown:
 				case WindowsMessage.KeyUp:
 				case WindowsMessage.Char:
-					WebView.InjectKeyboardEventWin(lParam.Msg, (Int32)lParam.WParam, (Int32)lParam.LParam);
+					WebView.InjectKeyboardEvent(new WebKeyboardEvent((uint)lParam.Msg, lParam.WParam, lParam.LParam, 0));
 					break;
 
 				case WindowsMessage.MouseMove:
@@ -217,7 +226,7 @@ namespace AwesomiumXNA
 
 				case WindowsMessage.MouseWheel:
 					var delta = (((Int32)lParam.WParam) >> 16);
-					WebView.InjectMouseWheel(delta / SystemMetrics.MouseWheelScrollDelta * 16 * SystemMetrics.MouseWheelScrollLines);
+					WebView.InjectMouseWheel(delta / SystemMetrics.MouseWheelScrollDelta * 16 * SystemMetrics.MouseWheelScrollLines, 0);
 					break;
 				}
 				User32.TranslateMessage(ref lParam);
@@ -226,7 +235,7 @@ namespace AwesomiumXNA
 			return User32.CallNextHookEx(IntPtr.Zero, code, wParam, ref lParam);
 		}
 
-		private void WebView_ResizeComplete(Object sender, ResizeEventArgs e)
+		private void WebView_ResizeComplete(Object sender, SurfaceResizedEventArgs e)
 		{
 			resizing = false;
 		}
@@ -251,6 +260,7 @@ namespace AwesomiumXNA
 				if (area.IsEmpty)
 					area = GraphicsDevice.Viewport.Bounds;
 
+				((BitmapSurface)WebView.Surface).Resized += WebView_ResizeComplete;
 				WebView.Resize(area.Width, area.Height);
 				WebViewTexture = new Texture2D(Game.GraphicsDevice, area.Width, area.Height, false, SurfaceFormat.Color);
 				imageBytes = new Byte[area.Width * 4 * area.Height];
@@ -268,12 +278,12 @@ namespace AwesomiumXNA
 
 		public override void Draw(GameTime gameTime)
 		{
-			if (WebView.IsDirty)
+			if (((BitmapSurface)WebView.Surface).IsDirty)
 			{
-				RenderBuffer renderBuffer = WebView.Render();
-#if false
+				BitmapSurface renderBuffer = ((BitmapSurface)WebView.Surface);
+#if true
 				// This was the original solution
-				renderBuffer.CopyTo(imagePtr, renderBuffer.Width * 4, 4, true);
+				renderBuffer.CopyTo(imagePtr, renderBuffer.Width * 4, 4, true, false);
 				Marshal.Copy(imagePtr, imageBytes, 0, imageBytes.Length);
 				WebViewTexture.SetData(imageBytes);
 #endif
@@ -289,7 +299,7 @@ namespace AwesomiumXNA
 				}
 				WebViewTexture.SetData(imageBytes);
 #endif
-#if true
+#if false
 				// Found this little trick online, and it's quite a lot faster than either method above
 				renderBuffer.RenderTexture2D(WebViewTexture);
 #endif

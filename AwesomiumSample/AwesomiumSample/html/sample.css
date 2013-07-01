@@ -1,0 +1,88 @@
+
+
+body
+{
+	margin: 0px;
+}
+
+.panel
+{
+	background-color: rgba(100, 100, 100, 0.7);
+	border-color: #bbbbbb;
+	border-width: 1px;
+}
+
+.bottom
+{
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+}
+
+#controlPanel
+{
+	margin-left:auto;
+	margin-right:auto;
+	padding: 5px;
+	
+	bottom: 0px;
+	width: 245px;
+	height: 115px;
+	border-radius: 5px 5px 0px 0px;
+	border-style: solid solid none none;
+}
+
+.button
+{
+	display: inline-block;
+	background-color: rgba(40, 40, 40, 0.5);
+	
+	border-style: outset;
+	border-width: 2px;
+	border-color: #CCCCCC;
+	
+	border-radius: 5px;
+	
+	position: relative;
+	width: 75px;
+	height: 50px;
+}
+
+.button:hover
+{
+	background-color: rgba(70, 70, 70, 0.5);
+}
+
+.buttonPressed
+{
+	border-style: inset;
+	background-position: 2px 2px;
+}
+
+#btnUp
+{
+	display: inherit;
+	margin-left:auto;
+	margin-right:auto;
+	background-image: url("up.png");
+	background-repeat: no-repeat;
+}
+
+#btnLeft
+{
+	background-image: url("left.png");
+	background-repeat: no-repeat;
+}
+
+#btnDown
+{
+	background-image: url("down.png");
+	background-repeat: no-repeat;
+}
+
+#btnRight
+{
+	background-image: url("right.png");
+	background-repeat: no-repeat;
+}
+
