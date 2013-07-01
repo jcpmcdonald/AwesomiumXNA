@@ -235,10 +235,10 @@ namespace AwesomiumXNA
 			return User32.CallNextHookEx(IntPtr.Zero, code, wParam, ref lParam);
 		}
 
-		private void WebView_ResizeComplete(Object sender, SurfaceResizedEventArgs e)
-		{
-			resizing = false;
-		}
+		//private void WebView_ResizeComplete(Object sender, SurfaceResizedEventArgs e)
+		//{
+		//    resizing = false;
+		//}
 
 		protected override void LoadContent()
 		{
@@ -254,21 +254,21 @@ namespace AwesomiumXNA
 
 		public override void Update(GameTime gameTime)
 		{
-			if (newArea.HasValue && !resizing && gameTime.TotalGameTime.TotalSeconds > 0.10f)
-			{
-				area = newArea.Value;
-				if (area.IsEmpty)
-					area = GraphicsDevice.Viewport.Bounds;
+			//if (newArea.HasValue && !resizing && gameTime.TotalGameTime.TotalSeconds > 0.10f)
+			//{
+			//    area = newArea.Value;
+			//    if (area.IsEmpty)
+			//        area = GraphicsDevice.Viewport.Bounds;
 
-				((BitmapSurface)WebView.Surface).Resized += WebView_ResizeComplete;
-				WebView.Resize(area.Width, area.Height);
-				WebViewTexture = new Texture2D(Game.GraphicsDevice, area.Width, area.Height, false, SurfaceFormat.Color);
-				imageBytes = new Byte[area.Width * 4 * area.Height];
-				imagePtr = Marshal.AllocHGlobal(imageBytes.Length);
-				resizing = true;
+			//    ((BitmapSurface)WebView.Surface).Resized += WebView_ResizeComplete;
+			//    WebView.Resize(area.Width, area.Height);
+			//    WebViewTexture = new Texture2D(Game.GraphicsDevice, area.Width, area.Height, false, SurfaceFormat.Color);
+			//    imageBytes = new Byte[area.Width * 4 * area.Height];
+			//    imagePtr = Marshal.AllocHGlobal(imageBytes.Length);
+			//    resizing = true;
 
-				newArea = null;
-			}
+			//    newArea = null;
+			//}
 
 			// Manually update the webcore so that we're not running 2 clocks
 			WebCore.Update();
@@ -278,10 +278,10 @@ namespace AwesomiumXNA
 
 		public override void Draw(GameTime gameTime)
 		{
-			if (((BitmapSurface)WebView.Surface).IsDirty)
+			if (WebView.Surface != null && ((BitmapSurface)WebView.Surface).IsDirty)
 			{
 				BitmapSurface renderBuffer = ((BitmapSurface)WebView.Surface);
-#if true
+#if false
 				// This was the original solution
 				renderBuffer.CopyTo(imagePtr, renderBuffer.Width * 4, 4, true, false);
 				Marshal.Copy(imagePtr, imageBytes, 0, imageBytes.Length);
@@ -294,13 +294,13 @@ namespace AwesomiumXNA
 					// This part saves us from double copying everything.
 					fixed (Byte* imagePtr = imageBytes)
 					{
-						renderBuffer.CopyTo((IntPtr)imagePtr, renderBuffer.Width * 4, 4, false);
+						renderBuffer.CopyTo((IntPtr)imagePtr, renderBuffer.Width * 4, 4, false, false);
 					}
 				}
 				WebViewTexture.SetData(imageBytes);
 #endif
-#if false
-				// Found this little trick online, and it's quite a lot faster than either method above
+#if true
+				// Found this little trick online, and it's quite a lot faster than either method above (roughly 3x faster)
 				renderBuffer.RenderTexture2D(WebViewTexture);
 #endif
 			}
